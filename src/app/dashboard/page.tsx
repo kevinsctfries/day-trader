@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./page.module.scss";
 import StockTable from "../components/StockTable/StockTable";
 import StockChart from "../components/StockChart/StockChart";
+import Portfolio from "../components/Portfolio/Portfolio";
 
 const Dashboard = () => {
   return (
@@ -15,7 +16,9 @@ const Dashboard = () => {
             <StockChart />
           </div>
         </div>
-        <div className={styles.bottom}>Your Portfolio</div>
+        <div className={styles.bottom}>
+          <Portfolio />
+        </div>
       </main>
     </div>
   );
