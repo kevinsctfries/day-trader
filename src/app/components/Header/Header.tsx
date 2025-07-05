@@ -12,6 +12,7 @@ const Header = () => {
         <span className={styles.label}>Net Worth:</span>
         <span className={styles.value}>$500,000</span>
       </div>
+      <button>Next Day</button>
     </header>
   );
 };
