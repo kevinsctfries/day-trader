@@ -20,23 +20,25 @@ export default function StockTable() {
   }, []);
 
   return (
-    <table className={styles.table}>
-      <thead>
-        <tr>
-          <th>Symbol</th>
-          <th>Name</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>
-        {stocks.map(stock => (
-          <tr key={stock.symbol}>
-            <td>{stock.symbol}</td>
-            <td>{stock.name}</td>
-            <td>${stock.price.toFixed(2)}</td>
+    <div className={styles.main}>
+      <table className={styles.table}>
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Price</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {stocks.map(stock => (
+            <tr key={stock.symbol}>
+              <td>{stock.symbol}</td>
+              <td>{stock.name}</td>
+              <td>${stock.price.toFixed(2)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
