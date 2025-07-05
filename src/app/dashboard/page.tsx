@@ -8,10 +8,10 @@ import Header from "../components/Header/Header";
 const Dashboard = () => {
   return (
     <div className={styles.page}>
+      <header>
+        <Header />
+      </header>
       <main className={styles.main}>
-        <header>
-          <Header />
-        </header>
         <div className={styles.top}>
           <div className={styles.left}>
             <StockTable />
