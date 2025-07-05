@@ -1,6 +1,9 @@
 :root {
-  --background: #0a0a0a;
-  --foreground: #ededed;
+  --background: #000000;
+  --background-alt: #161618;
+  --card: #212124;
+  --text: #ffffff;
+  --text-muted: #818181;
 }
 
 html,
@@ -10,7 +13,7 @@ body {
 }
 
 body {
-  color: var(--foreground);
+  color: var(--text);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
