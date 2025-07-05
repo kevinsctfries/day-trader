@@ -18,7 +18,7 @@
 
             .left,
             .right {
-                border: 1px solid white;
+                background-color: var(--card);
                 border-radius: 0.5rem;
             }
         }
@@ -26,7 +26,7 @@
         .bottom {
             flex: 1;
             height: 50%;
-            border: 1px solid white;
+            background-color: var(--card);
             border-radius: 0.5rem;
         }
     }
