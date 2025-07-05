@@ -1,3 +1,4 @@
+import Link from "next/link";
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -5,12 +6,14 @@ export default function Home() {
     <div className={styles.page}>
       <main className={styles.main}>
         <div>
+          <h1>DayTrader</h1>
           <input type="text" placeholder="Username" required />
           <input type="text" placeholder="Password" required />
-          <button>Login</button>
+          <Link href="/dashboard">
+            <button>Login</button>
+          </Link>
         </div>
       </main>
-      <footer className={styles.footer}></footer>
     </div>
   );
 }
