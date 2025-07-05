@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./page.module.scss";
-import StockTable from "../components/StockTable";
+import StockTable from "../components/StockTable/StockTable";
 
 const Dashboard = () => {
   return (

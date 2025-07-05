@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import styles from "./StockTable.module.scss";
 
 interface Stock {
   symbol: string;
@@ -19,7 +20,7 @@ export default function StockTable() {
   }, []);
 
   return (
-    <table>
+    <table className={styles.table}>
       <thead>
         <tr>
           <th>Symbol</th>
