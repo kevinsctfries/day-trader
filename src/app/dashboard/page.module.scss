@@ -32,4 +32,48 @@
             border-radius: 0.5rem;
         }
     }
+
+    .gameOver {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--text);
+        z-index: 1000;
+
+        text-align: center;
+
+        .overMessage {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #f5f5f7;
+        }
+
+        .gameStats {
+            font-size: 1.5rem;
+            color: #a1a1a6;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+        }
+
+        animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
 }

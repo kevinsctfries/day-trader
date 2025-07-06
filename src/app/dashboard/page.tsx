@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [baseStocks, setBaseStocks] = useState<BaseStock[]>([]);
   const [selectedStock, setSelectedStock] = useState<BaseStock | null>(null);
   const [currentDay, setCurrentDay] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     fetch("/baseStocks.json")
@@ -21,6 +22,12 @@ export default function Dashboard() {
   }, []);
 
   const nextDay = () => setCurrentDay(prev => prev + 1);
+
+  useEffect(() => {
+    if (currentDay === 1) {
+      setGameOver(true);
+    }
+  }, [currentDay]);
 
   return (
     <div className={styles.page}>
@@ -44,6 +51,14 @@ export default function Dashboard() {
           <Portfolio />
         </div>
       </main>
+
+      {gameOver && (
+        <div className={styles.gameOver}>
+          <span className={styles.overMessage}>YOU DID IT!</span>
+          <span className={styles.gameStats}>You made: $1,000,000</span>
+          <button onClick={() => window.location.reload()}>Play Again</button>
+        </div>
+      )}
     </div>
   );
 }
