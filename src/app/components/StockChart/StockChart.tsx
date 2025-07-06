@@ -28,10 +28,22 @@ export default function StockChart({ stock, currentDay }: Props) {
     );
   }
 
-  const chartData = Array.from({ length: currentDay + 1 }, (_, i) => ({
-    name: `Day ${i}`,
-    price: getStockPrice(stock.symbol, i, stock.basePrice, stock.beta),
-  }));
+  // Only shows up to the previous 5 days
+  const visibleDays = Math.min(currentDay + 1, 5);
+  const startDay = currentDay - visibleDays + 1;
+
+  const chartData = Array.from({ length: visibleDays }, (_, i) => {
+    const actualDay = startDay + i;
+    return {
+      name: `Day ${actualDay}`,
+      price: getStockPrice(
+        stock.symbol,
+        actualDay,
+        stock.basePrice,
+        stock.beta
+      ),
+    };
+  });
 
   return (
     <ResponsiveContainer width="100%" height="100%">
