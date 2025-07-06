@@ -6,6 +6,7 @@ import StockTable from "../components/StockTable/StockTable";
 import StockChart from "../components/StockChart/StockChart";
 import Portfolio from "../components/Portfolio/Portfolio";
 import Header from "../components/Header/Header";
+import Orders from "../components/Orders/Orders";
 import { BaseStock } from "@/app/types";
 
 export default function Dashboard() {
@@ -13,6 +14,13 @@ export default function Dashboard() {
   const [selectedStock, setSelectedStock] = useState<BaseStock | null>(null);
   const [currentDay, setCurrentDay] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+
+  const Tabs = {
+    PORTFOLIO: "Portfolio",
+    ORDERS: "Orders",
+  };
+
+  const [activeTab, setActiveTab] = useState(Tabs.ORDERS);
 
   useEffect(() => {
     fetch("/baseStocks.json")
@@ -48,7 +56,14 @@ export default function Dashboard() {
           </div>
         </div>
         <div className={styles.bottom}>
-          <Portfolio />
+          <div>
+            <button onClick={() => setActiveTab(Tabs.ORDERS)}>Orders</button>
+            <button onClick={() => setActiveTab(Tabs.PORTFOLIO)}>
+              Portfolio
+            </button>
+          </div>
+          {activeTab === Tabs.ORDERS && <Orders />}
+          {activeTab === Tabs.PORTFOLIO && <Portfolio />}
         </div>
       </main>
 
