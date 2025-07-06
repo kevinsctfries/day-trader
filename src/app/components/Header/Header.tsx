@@ -11,11 +11,11 @@ const Header: React.FC<HeaderProps> = ({ currentDay, onNextDay }) => {
     <header className={styles.header}>
       <div className={styles.metric}>
         <span className={styles.label}>Cash Available:</span>
-        <span className={styles.value}>$50,000</span>
+        <span className={styles.value}>$25,000</span>
       </div>
       <div className={styles.metric}>
         <span className={styles.label}>Net Worth:</span>
-        <span className={styles.value}>$500,000</span>
+        <span className={styles.value}>$25,000</span>
       </div>
       <button onClick={onNextDay}>Next Day</button>
       <span>Day: {currentDay}</span>
