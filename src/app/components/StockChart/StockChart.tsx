@@ -10,7 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-import "./StockChart.module.scss";
+import styles from "./StockChart.module.scss";
 import { getStockPrice } from "@/app/utils/priceGenerator";
 import { BaseStock } from "@/app/types";
 
@@ -22,7 +22,9 @@ interface Props {
 export default function StockChart({ stock, currentDay }: Props) {
   if (!stock) {
     return (
-      <div style={{ padding: "1rem" }}>Select a stock to view its chart</div>
+      <div className={styles.selectMessage}>
+        Select a stock to view its chart
+      </div>
     );
   }
 
