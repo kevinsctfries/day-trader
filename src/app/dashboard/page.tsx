@@ -24,7 +24,7 @@ export default function Dashboard() {
   const nextDay = () => setCurrentDay(prev => prev + 1);
 
   useEffect(() => {
-    if (currentDay === 1) {
+    if (currentDay === 100) {
       setGameOver(true);
     }
   }, [currentDay]);
