@@ -1,0 +1,62 @@
+[
+  {
+    "symbol": "AMAZ",
+    "name": "Amazoom Inc.",
+    "basePrice": 142.33,
+    "beta": 1.4
+  },
+  {
+    "symbol": "APPL",
+    "name": "Pineapple Technologies",
+    "basePrice": 193.75,
+    "beta": 1.1
+  },
+  {
+    "symbol": "TSLA",
+    "name": "Tessela Motors",
+    "basePrice": 275.2,
+    "beta": 1.8
+  },
+  {
+    "symbol": "GOGL",
+    "name": "Googolplex Ltd.",
+    "basePrice": 124.88,
+    "beta": 1.3
+  },
+  {
+    "symbol": "MSFT",
+    "name": "Macrosoft Corporation",
+    "basePrice": 314.6,
+    "beta": 1.0
+  },
+  {
+    "symbol": "META",
+    "name": "Metagram Inc.",
+    "basePrice": 198.4,
+    "beta": 1.5
+  },
+  {
+    "symbol": "NFLX",
+    "name": "Netflux Media",
+    "basePrice": 412.95,
+    "beta": 1.2
+  },
+  {
+    "symbol": "DISN",
+    "name": "Diznee Entertainment",
+    "basePrice": 88.1,
+    "beta": 0.9
+  },
+  {
+    "symbol": "NVID",
+    "name": "Envidia Chips",
+    "basePrice": 785.25,
+    "beta": 2.0
+  },
+  {
+    "symbol": "BRKB",
+    "name": "Brickshire Hathaway",
+    "basePrice": 364.5,
+    "beta": 0.8
+  }
+]

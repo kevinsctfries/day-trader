@@ -1,7 +1,12 @@
 import React from "react";
 import styles from "./Header.module.scss";
 
-const Header = () => {
+interface HeaderProps {
+  currentDay: number;
+  onNextDay: () => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ currentDay, onNextDay }) => {
   return (
     <header className={styles.header}>
       <div className={styles.metric}>
@@ -12,7 +17,8 @@ const Header = () => {
         <span className={styles.label}>Net Worth:</span>
         <span className={styles.value}>$500,000</span>
       </div>
-      <button>Next Day</button>
+      <button onClick={onNextDay}>Next Day</button>
+      <span>Day: {currentDay}</span>
     </header>
   );
 };

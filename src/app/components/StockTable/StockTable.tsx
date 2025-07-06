@@ -1,23 +1,28 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { getStockPrice } from "@/app/utils/priceGenerator";
 import styles from "./StockTable.module.scss";
+import { BaseStock } from "@/app/types";
 
 interface Stock {
   symbol: string;
   name: string;
   price: number;
+  basePrice: number;
+  beta: number;
 }
 
-export default function StockTable() {
-  const [stocks, setStocks] = useState<Stock[]>([]);
+interface Props {
+  day: number;
+  baseStocks: BaseStock[];
+  onSelectStock: (stock: Stock) => void;
+}
 
-  useEffect(() => {
-    fetch("/stocks.json")
-      .then(res => res.json())
-      .then(data => setStocks(data))
-      .catch(err => console.error("Error fetching stocks:", err));
-  }, []);
+export default function StockTable({ day, baseStocks, onSelectStock }: Props) {
+  const calculatedStocks = baseStocks.map(base => ({
+    ...base,
+    price: getStockPrice(base.symbol, day, base.basePrice, base.beta),
+  }));
 
   return (
     <div className={styles.main}>
@@ -30,8 +35,8 @@ export default function StockTable() {
           </tr>
         </thead>
         <tbody>
-          {stocks.map(stock => (
-            <tr key={stock.symbol}>
+          {calculatedStocks.map(stock => (
+            <tr key={stock.symbol} onClick={() => onSelectStock(stock)}>
               <td>{stock.symbol}</td>
               <td>{stock.name}</td>
               <td>${stock.price.toFixed(2)}</td>
