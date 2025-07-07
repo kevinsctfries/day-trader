@@ -62,7 +62,9 @@ export default function Dashboard() {
               Portfolio
             </button>
           </div>
-          {activeTab === Tabs.ORDERS && <Orders />}
+          {activeTab === Tabs.ORDERS && (
+            <Orders baseStocks={baseStocks} day={currentDay} />
+          )}
           {activeTab === Tabs.PORTFOLIO && <Portfolio />}
         </div>
       </main>

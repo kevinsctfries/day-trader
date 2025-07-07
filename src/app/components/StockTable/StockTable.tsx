@@ -1,16 +1,8 @@
 "use client";
 
-import { getStockPrice } from "@/app/utils/priceGenerator";
 import styles from "./StockTable.module.scss";
-import { BaseStock } from "@/app/types";
-
-interface Stock {
-  symbol: string;
-  name: string;
-  price: number;
-  basePrice: number;
-  beta: number;
-}
+import { BaseStock, Stock } from "@/app/types";
+import { stockPrice } from "@/app/utils/stocks";
 
 interface Props {
   day: number;
@@ -19,10 +11,7 @@ interface Props {
 }
 
 export default function StockTable({ day, baseStocks, onSelectStock }: Props) {
-  const calculatedStocks = baseStocks.map(base => ({
-    ...base,
-    price: getStockPrice(base.symbol, day, base.basePrice, base.beta),
-  }));
+  const calculatedStocks = stockPrice(baseStocks, day);
 
   return (
     <div className={styles.main}>

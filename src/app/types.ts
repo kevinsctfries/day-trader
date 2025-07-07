@@ -4,3 +4,7 @@ export interface BaseStock {
   basePrice: number;
   beta: number;
 }
+
+export interface Stock extends BaseStock {
+  price: number;
+}
