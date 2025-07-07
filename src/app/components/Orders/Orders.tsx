@@ -2,7 +2,9 @@
 
 import { BaseStock } from "@/app/types";
 import { stockPrice } from "@/app/utils/stocks";
+import PurchaseModal from "../PurchaseModal/PurchaseModal";
 import styles from "./Orders.module.scss";
+import { useState } from "react";
 
 interface Props {
   day: number;
@@ -10,6 +12,7 @@ interface Props {
 }
 
 export default function Orders({ day, baseStocks }: Props) {
+  const [showPurchase, setShowPurchase] = useState(false);
   const calculatedStocks = stockPrice(baseStocks, day);
 
   return (
@@ -31,7 +34,7 @@ export default function Orders({ day, baseStocks }: Props) {
               <td>{stock.name}</td>
               <td>0</td>
               <td>
-                <button>Buy</button>
+                <button onClick={() => setShowPurchase(true)}>Buy</button>
               </td>
               <td>
                 <button>Sell</button>
@@ -40,6 +43,8 @@ export default function Orders({ day, baseStocks }: Props) {
           ))}
         </tbody>
       </table>
+
+      {showPurchase && <PurchaseModal onClose={() => setShowPurchase(false)} />}
     </div>
   );
 }
