@@ -56,16 +56,18 @@ export default function Dashboard() {
           </div>
         </div>
         <div className={styles.bottom}>
-          <div>
+          <div className={styles.tabButtons}>
             <button onClick={() => setActiveTab(Tabs.ORDERS)}>Orders</button>
             <button onClick={() => setActiveTab(Tabs.PORTFOLIO)}>
               Portfolio
             </button>
           </div>
-          {activeTab === Tabs.ORDERS && (
-            <Orders baseStocks={baseStocks} day={currentDay} />
-          )}
-          {activeTab === Tabs.PORTFOLIO && <Portfolio />}
+          <div className={styles.tabContent}>
+            {activeTab === Tabs.ORDERS && (
+              <Orders baseStocks={baseStocks} day={currentDay} />
+            )}
+            {activeTab === Tabs.PORTFOLIO && <Portfolio />}
+          </div>
         </div>
       </main>
 
