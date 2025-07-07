@@ -101,12 +101,18 @@ export default class Portfolio extends PureComponent {
             <Tooltip />
             <Legend />
             <Line
-              type="monotone"
+              type="linear"
               dataKey="pv"
               stroke="#8884d8"
               activeDot={{ r: 8 }}
+              isAnimationActive={false}
             />
-            <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+            <Line
+              type="linear"
+              dataKey="uv"
+              stroke="#82ca9d"
+              isAnimationActive={false}
+            />
           </LineChart>
         </ResponsiveContainer>
         <ResponsiveContainer width="100%" height={300}>
@@ -118,6 +124,7 @@ export default class Portfolio extends PureComponent {
               cy="50%"
               outerRadius={60}
               fill="#8884d8"
+              isAnimationActive={false}
             />
             <Pie
               data={data02}
@@ -127,6 +134,7 @@ export default class Portfolio extends PureComponent {
               innerRadius={70}
               outerRadius={90}
               fill="#82ca9d"
+              isAnimationActive={false}
               label
             />
           </PieChart>

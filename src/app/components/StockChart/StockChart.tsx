@@ -67,7 +67,13 @@ export default function StockChart({ stock, currentDay }: Props) {
             <XAxis dataKey="name" />
             <YAxis domain={["auto", "auto"]} />
             <Tooltip />
-            <Line type="monotone" dataKey="price" stroke="#8884d8" />
+            <Line
+              type="linear"
+              dataKey="price"
+              stroke="#8884d8"
+              isAnimationActive={false}
+            />
+            isAnim
           </LineChart>
         </ResponsiveContainer>
       </div>
