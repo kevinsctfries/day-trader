@@ -29,7 +29,7 @@ export default function Orders({ day, baseStocks }: Props) {
             <tr key={stock.symbol}>
               <td>{stock.symbol}</td>
               <td>{stock.name}</td>
-              <td>${stock.price.toFixed(2)}</td>
+              <td>0</td>
               <td>
                 <button>Buy</button>
               </td>
