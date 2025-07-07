@@ -7,12 +7,12 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
 import styles from "./StockChart.module.scss";
 import { getStockPrice } from "@/app/utils/priceGenerator";
 import { BaseStock } from "@/app/types";
+import { useState } from "react";
 
 interface Props {
   stock: BaseStock | null;
@@ -20,6 +20,8 @@ interface Props {
 }
 
 export default function StockChart({ stock, currentDay }: Props) {
+  const [days, setDays] = useState("7");
+
   if (!stock) {
     return (
       <div className={styles.selectMessage}>
@@ -28,8 +30,8 @@ export default function StockChart({ stock, currentDay }: Props) {
     );
   }
 
-  // Only shows up to the previous 5 days
-  const visibleDays = Math.min(currentDay + 1, 5);
+  const visibleDays =
+    days === "YTD" ? currentDay + 1 : Math.min(currentDay + 1, parseInt(days));
   const startDay = currentDay - visibleDays + 1;
 
   const chartData = Array.from({ length: visibleDays }, (_, i) => {
@@ -46,19 +48,29 @@ export default function StockChart({ stock, currentDay }: Props) {
   });
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <LineChart
-        width={500}
-        height={300}
-        data={chartData}
-        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis domain={["auto", "auto"]} />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="price" stroke="#8884d8" />
-      </LineChart>
-    </ResponsiveContainer>
+    <div className={styles.main}>
+      <div className={styles.rangeSelector}>
+        <label htmlFor="range">Range:</label>
+        <select id="range" value={days} onChange={e => setDays(e.target.value)}>
+          <option value="7">7 Days</option>
+          <option value="30">1 Month</option>
+          <option value="YTD">YTD</option>
+        </select>
+      </div>
+
+      <div className={styles.responsiveContainer}>
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart
+            data={chartData}
+            margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="name" />
+            <YAxis domain={["auto", "auto"]} />
+            <Tooltip />
+            <Line type="monotone" dataKey="price" stroke="#8884d8" />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
   );
 }
