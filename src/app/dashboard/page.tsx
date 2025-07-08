@@ -8,7 +8,7 @@ import Portfolio from "../components/Portfolio/Portfolio";
 import Header from "../components/Header/Header";
 import Orders from "../components/Orders/Orders";
 import { stockPrice } from "../utils/stocks";
-import { buyShares, sellShares, netWorth } from "../utils/portfolio";
+import { netWorth } from "../utils/portfolio";
 import { BaseStock, PortfolioState } from "@/app/types";
 
 export default function Dashboard() {

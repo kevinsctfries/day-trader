@@ -7,7 +7,7 @@ import styles from "./Orders.module.scss";
 import { useState } from "react";
 import SellModal from "../SellModal/SellModal";
 import { getStockPrice } from "@/app/utils/priceGenerator";
-import { buyShares } from "@/app/utils/portfolio";
+import { buyShares, sellShares } from "@/app/utils/portfolio";
 import { PortfolioState, Holding } from "@/app/types";
 
 interface Props {
@@ -96,7 +96,25 @@ export default function Orders({
           }}
         />
       )}
-      {showSell && <SellModal onClose={() => setShowSell(false)} />}
+      {showSell && stock && (
+        <SellModal
+          stockSymbol={stock.symbol}
+          onClose={() => setShowSell(false)}
+          onConfirm={qty => {
+            const price = getStockPrice(
+              stock.symbol,
+              day,
+              stock.basePrice,
+              stock.beta
+            );
+
+            onUpdatePortfolio(prev =>
+              sellShares(prev, stock.symbol, price, qty)
+            );
+            setShowSell(false);
+          }}
+        />
+      )}
     </div>
   );
 }

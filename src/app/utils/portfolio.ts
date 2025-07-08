@@ -1,4 +1,4 @@
-import { PortfolioState, Holding } from "../types";
+import { PortfolioState } from "../types";
 
 export function buyShares(
   state: PortfolioState,
@@ -16,6 +16,22 @@ export function buyShares(
         h.symbol === symbol ? { ...h, shares: h.shares + quantity } : h
       )
     : [...state.holdings, { symbol, shares: quantity }];
+  return { cash: newCash, holdings: newHoldings };
+}
+
+export function sellShares(
+  state: PortfolioState,
+  symbol: string,
+  price: number,
+  quantity: number
+): PortfolioState {
+  const earnings = price * quantity;
+  const newCash = state.cash + earnings;
+
+  const newHoldings = state.holdings
+    .map(h => (h.symbol === symbol ? { ...h, shares: h.shares - quantity } : h))
+    .filter(h => h.shares > 0);
+
   return { cash: newCash, holdings: newHoldings };
 }
 
