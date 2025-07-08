@@ -8,12 +8,13 @@ import { useState } from "react";
 import SellModal from "../SellModal/SellModal";
 import { getStockPrice } from "@/app/utils/priceGenerator";
 import { buyShares } from "@/app/utils/portfolio";
-import { PortfolioState } from "@/app/types";
+import { PortfolioState, Holding } from "@/app/types";
 
 interface Props {
   day: number;
   baseStocks: BaseStock[];
   cash: number;
+  holdings: Holding[];
   onUpdatePortfolio: (
     updater: (prev: PortfolioState) => PortfolioState
   ) => void;
@@ -24,6 +25,7 @@ export default function Orders({
   baseStocks,
   onUpdatePortfolio,
   cash,
+  holdings,
 }: Props) {
   const [showPurchase, setShowPurchase] = useState(false);
   const [showSell, setShowSell] = useState(false);
@@ -43,25 +45,29 @@ export default function Orders({
           </tr>
         </thead>
         <tbody>
-          {calculatedStocks.map(stock => (
-            <tr key={stock.symbol}>
-              <td>{stock.symbol}</td>
-              <td>{stock.name}</td>
-              <td>0</td>
-              <td>
-                <button
-                  onClick={() => {
-                    setShowPurchase(true);
-                    setStock(stock);
-                  }}>
-                  Buy
-                </button>
-              </td>
-              <td>
-                <button onClick={() => setShowSell(true)}>Sell</button>
-              </td>
-            </tr>
-          ))}
+          {calculatedStocks.map(stock => {
+            const owned =
+              holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0;
+            return (
+              <tr key={stock.symbol}>
+                <td>{stock.symbol}</td>
+                <td>{stock.name}</td>
+                <td>{owned}</td>
+                <td>
+                  <button
+                    onClick={() => {
+                      setShowPurchase(true);
+                      setStock(stock);
+                    }}>
+                    Buy
+                  </button>
+                </td>
+                <td>
+                  <button onClick={() => setShowSell(true)}>Sell</button>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
 

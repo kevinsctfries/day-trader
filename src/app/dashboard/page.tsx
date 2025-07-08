@@ -86,6 +86,7 @@ export default function Dashboard() {
                 baseStocks={baseStocks}
                 day={currentDay}
                 cash={portfolio.cash}
+                holdings={portfolio.holdings}
                 onUpdatePortfolio={setPortfolio}
               />
             )}
