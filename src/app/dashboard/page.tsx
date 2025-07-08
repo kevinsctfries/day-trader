@@ -98,7 +98,10 @@ export default function Dashboard() {
       {gameOver && (
         <div className={styles.gameOver}>
           <span className={styles.overMessage}>YOU DID IT!</span>
-          <span className={styles.gameStats}>You made: $1,000,000</span>
+          <span className={styles.gameStats}>
+            Your Net Worth: $
+            {netWorth(portfolio, currentPrices).toLocaleString()}
+          </span>
           <button onClick={() => window.location.reload()}>Play Again</button>
         </div>
       )}
