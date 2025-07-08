@@ -15,9 +15,13 @@ export default function PurchaseModal({
   onClose,
 }: PurchaseModalProps) {
   const [quantity, setQuantity] = useState(1);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onConfirm(quantity);
+  };
 
   return (
-    <div className={styles.main}>
+    <form className={styles.main} onSubmit={handleSubmit}>
       <div>
         <span>Buy {stockSymbol}</span>
         <div>
@@ -32,6 +36,6 @@ export default function PurchaseModal({
         </div>
         <button onClick={onClose}>Close</button>
       </div>
-    </div>
+    </form>
   );
 }
