@@ -31,6 +31,7 @@ export default function Orders({
   const [showSell, setShowSell] = useState(false);
   const calculatedStocks = stockPrice(baseStocks, day);
   const [stock, setStock] = useState<BaseStock | null>(null);
+  const [selectedPrice, setSelectedPrice] = useState<number>(0);
 
   return (
     <div className={styles.main}>
@@ -56,6 +57,13 @@ export default function Orders({
                 <td>
                   <button
                     onClick={() => {
+                      const price = getStockPrice(
+                        stock.symbol,
+                        day,
+                        stock.basePrice,
+                        stock.beta
+                      );
+                      setSelectedPrice(price);
                       setShowPurchase(true);
                       setStock(stock);
                     }}>
@@ -65,8 +73,15 @@ export default function Orders({
                 <td>
                   <button
                     onClick={() => {
-                      setShowSell(true);
+                      const price = getStockPrice(
+                        stock.symbol,
+                        day,
+                        stock.basePrice,
+                        stock.beta
+                      );
+                      setSelectedPrice(price);
                       setStock(stock);
+                      setShowSell(true);
                     }}>
                     Sell
                   </button>
@@ -80,23 +95,18 @@ export default function Orders({
       {showPurchase && stock && (
         <PurchaseModal
           stockSymbol={stock.symbol}
+          price={selectedPrice}
+          cash={cash}
           onClose={() => setShowPurchase(false)}
           onConfirm={qty => {
-            const price = getStockPrice(
-              stock.symbol,
-              day,
-              stock.basePrice,
-              stock.beta
-            );
-
-            const cost = price * qty;
+            const cost = selectedPrice * qty;
             if (cost > cash) {
               alert("Not enough cash!");
               return;
             }
 
             onUpdatePortfolio(prev =>
-              buyShares(prev, stock.symbol, price, qty)
+              buyShares(prev, stock.symbol, selectedPrice, qty)
             );
             setShowPurchase(false);
           }}
@@ -105,15 +115,9 @@ export default function Orders({
       {showSell && stock && (
         <SellModal
           stockSymbol={stock.symbol}
+          owned={holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0}
           onClose={() => setShowSell(false)}
           onConfirm={qty => {
-            const price = getStockPrice(
-              stock.symbol,
-              day,
-              stock.basePrice,
-              stock.beta
-            );
-
             const owned =
               holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0;
 
@@ -126,7 +130,7 @@ export default function Orders({
             }
 
             onUpdatePortfolio(prev =>
-              sellShares(prev, stock.symbol, price, qty)
+              sellShares(prev, stock.symbol, selectedPrice, qty)
             );
             setShowSell(false);
           }}
