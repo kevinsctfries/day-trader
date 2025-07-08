@@ -31,6 +31,21 @@ a {
   text-decoration: none;
 }
 
+button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+
+  background-color: var(--card);
+  color: var(--text);
+  border: 1px solid var(--text-muted);
+
+  &:hover {
+    background-color: var(--text-muted);
+  }
+}
+
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
