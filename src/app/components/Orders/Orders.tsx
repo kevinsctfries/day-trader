@@ -63,7 +63,13 @@ export default function Orders({
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => setShowSell(true)}>Sell</button>
+                  <button
+                    onClick={() => {
+                      setShowSell(true);
+                      setStock(stock);
+                    }}>
+                    Sell
+                  </button>
                 </td>
               </tr>
             );
@@ -107,6 +113,17 @@ export default function Orders({
               stock.basePrice,
               stock.beta
             );
+
+            const owned =
+              holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0;
+
+            if (owned === 0) {
+              alert(`You don't own any shares of ${stock.symbol}`);
+              return;
+            } else if (qty > owned) {
+              alert(`You only own ${owned} shares of ${stock.symbol}`);
+              return;
+            }
 
             onUpdatePortfolio(prev =>
               sellShares(prev, stock.symbol, price, qty)
