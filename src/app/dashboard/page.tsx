@@ -7,12 +7,18 @@ import StockChart from "../components/StockChart/StockChart";
 import Portfolio from "../components/Portfolio/Portfolio";
 import Header from "../components/Header/Header";
 import Orders from "../components/Orders/Orders";
-import { BaseStock } from "@/app/types";
+import { stockPrice } from "../utils/stocks";
+import { buyShares, sellShares, netWorth } from "../utils/portfolio";
+import { BaseStock, PortfolioState } from "@/app/types";
 
 export default function Dashboard() {
   const [baseStocks, setBaseStocks] = useState<BaseStock[]>([]);
   const [selectedStock, setSelectedStock] = useState<BaseStock | null>(null);
   const [currentDay, setCurrentDay] = useState(0);
+  const [portfolio, setPortfolio] = useState<PortfolioState>({
+    cash: 25000,
+    holdings: [],
+  });
   const [gameOver, setGameOver] = useState(false);
 
   const Tabs = {
@@ -37,10 +43,22 @@ export default function Dashboard() {
     }
   }, [currentDay]);
 
+  const calculatedStocks = stockPrice(baseStocks, currentDay);
+
+  const currentPrices: Record<string, number> = {};
+  calculatedStocks.forEach(s => {
+    currentPrices[s.symbol] = s.price;
+  });
+
   return (
     <div className={styles.page}>
       <header>
-        <Header currentDay={currentDay} onNextDay={nextDay} />
+        <Header
+          currentDay={currentDay}
+          onNextDay={nextDay}
+          cash={portfolio.cash}
+          netWorth={netWorth(portfolio, currentPrices)}
+        />
       </header>
       <main className={styles.main}>
         <div className={styles.top}>
@@ -64,7 +82,12 @@ export default function Dashboard() {
           </div>
           <div className={styles.tabContent}>
             {activeTab === Tabs.ORDERS && (
-              <Orders baseStocks={baseStocks} day={currentDay} />
+              <Orders
+                baseStocks={baseStocks}
+                day={currentDay}
+                cash={portfolio.cash}
+                onUpdatePortfolio={setPortfolio}
+              />
             )}
             {activeTab === Tabs.PORTFOLIO && <Portfolio />}
           </div>
