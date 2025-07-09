@@ -10,6 +10,8 @@ import Orders from "../components/Orders/Orders";
 import { stockPrice } from "../utils/stocks";
 import { netWorth } from "../utils/portfolio";
 import { BaseStock, PortfolioState } from "@/app/types";
+import News from "../components/News/News";
+import Upgrades from "../components/Upgrades/Upgrades";
 
 export default function Dashboard() {
   const [baseStocks, setBaseStocks] = useState<BaseStock[]>([]);
@@ -24,6 +26,8 @@ export default function Dashboard() {
   const Tabs = {
     PORTFOLIO: "Portfolio",
     ORDERS: "Orders",
+    NEWS: "News",
+    UPGRADES: "Upgrades",
   };
 
   const [activeTab, setActiveTab] = useState(Tabs.ORDERS);
@@ -69,15 +73,21 @@ export default function Dashboard() {
               onSelectStock={setSelectedStock}
             />
           </div>
+
           <div className={styles.right}>
             <StockChart stock={selectedStock} currentDay={currentDay} />
           </div>
         </div>
+
         <div className={styles.bottom}>
           <div className={styles.tabButtons}>
             <button onClick={() => setActiveTab(Tabs.ORDERS)}>Orders</button>
             <button onClick={() => setActiveTab(Tabs.PORTFOLIO)}>
               Portfolio
+            </button>
+            <button onClick={() => setActiveTab(Tabs.NEWS)}>News</button>
+            <button onClick={() => setActiveTab(Tabs.UPGRADES)}>
+              Upgrades
             </button>
           </div>
           <div className={styles.tabContent}>
@@ -91,6 +101,8 @@ export default function Dashboard() {
               />
             )}
             {activeTab === Tabs.PORTFOLIO && <Portfolio />}
+            {activeTab === Tabs.NEWS && <News />}
+            {activeTab === Tabs.UPGRADES && <Upgrades />}
           </div>
         </div>
       </main>
