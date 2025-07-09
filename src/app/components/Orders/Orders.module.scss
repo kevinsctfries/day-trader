@@ -1,25 +1,27 @@
 .main {
-    height: 100%; // Change from max-height to height
+    height: 100%;
     overflow-y: auto;
     display: flex;
-    flex-direction: column; // Add this to control table layout
+    flex-direction: column;
 
     table {
         width: 100%;
+        max-width: 100%;
         border-collapse: collapse;
         background-color: var(--card);
         color: var(--text);
-        flex: 1; // Allow table to fill available space
-        min-height: 0; // Allow table to shrink if needed
+        flex: 1;
+        min-height: 0;
+        table-layout: fixed;
 
         thead {
             background-color: var(--background-alt);
 
             th {
-                text-align: left;
-                padding: 0.75rem 1rem;
+                padding: 0.75rem 0.5rem;
                 border-bottom: 1px solid var(--text-muted);
                 color: var(--text-muted);
+                font-size: 0.9rem;
             }
         }
 
@@ -32,11 +34,11 @@
                 }
 
                 td {
-                    padding: 0.75rem 1rem;
+                    padding: 0.75rem 0.5rem;
                     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-
-                    button {
-                    }
+                    overflow: hidden;
+                    white-space: nowrap;
+                    font-size: 0.9rem;
                 }
             }
 

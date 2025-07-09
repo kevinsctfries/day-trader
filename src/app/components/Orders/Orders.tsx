@@ -35,62 +35,64 @@ export default function Orders({
 
   return (
     <div className={styles.main}>
-      <table>
-        <thead>
-          <tr>
-            <th scope="col">Symbol</th>
-            <th scope="col">Name</th>
-            <th scope="col">Shares Owned</th>
-            <th scope="col">Buy</th>
-            <th scope="col">Sell</th>
-          </tr>
-        </thead>
-        <tbody>
-          {calculatedStocks.map(stock => {
-            const owned =
-              holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0;
-            return (
-              <tr key={stock.symbol}>
-                <td>{stock.symbol}</td>
-                <td>{stock.name}</td>
-                <td>{owned}</td>
-                <td>
-                  <button
-                    onClick={() => {
-                      const price = getStockPrice(
-                        stock.symbol,
-                        day,
-                        stock.basePrice,
-                        stock.beta
-                      );
-                      setSelectedPrice(price);
-                      setShowPurchase(true);
-                      setStock(stock);
-                    }}>
-                    Buy
-                  </button>
-                </td>
-                <td>
-                  <button
-                    onClick={() => {
-                      const price = getStockPrice(
-                        stock.symbol,
-                        day,
-                        stock.basePrice,
-                        stock.beta
-                      );
-                      setSelectedPrice(price);
-                      setStock(stock);
-                      setShowSell(true);
-                    }}>
-                    Sell
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className={styles.tableContainer}>
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Symbol</th>
+              <th scope="col">Company</th>
+              <th scope="col">Owned</th>
+              <th scope="col">Buy</th>
+              <th scope="col">Sell</th>
+            </tr>
+          </thead>
+          <tbody>
+            {calculatedStocks.map(stock => {
+              const owned =
+                holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0;
+              const currentPrice = getStockPrice(
+                stock.symbol,
+                day,
+                stock.basePrice,
+                stock.beta
+              );
+
+              return (
+                <tr key={stock.symbol}>
+                  <td>
+                    <div>
+                      <strong>{stock.symbol}</strong>
+                      <div>${currentPrice.toFixed(2)}</div>
+                    </div>
+                  </td>
+                  <td>{stock.name}</td>
+                  <td>{owned}</td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setSelectedPrice(currentPrice);
+                        setShowPurchase(true);
+                        setStock(stock);
+                      }}>
+                      Buy
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => {
+                        setSelectedPrice(currentPrice);
+                        setStock(stock);
+                        setShowSell(true);
+                      }}>
+                      Sell
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       {showPurchase && stock && (
         <PurchaseModal
