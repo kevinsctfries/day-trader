@@ -39,5 +39,5 @@ export function getStockPrice(
 
   const yesterdayPrice = prevPrice ?? basePrice;
   const todayPrice = yesterdayPrice * Math.exp(dailyReturn);
-  return Math.max(todayPrice, 0.01);
+  return parseFloat(Math.max(todayPrice, 0.01).toFixed(2));
 }
