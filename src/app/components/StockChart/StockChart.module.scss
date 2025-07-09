@@ -21,12 +21,5 @@
         flex: 1;
         width: 100%;
         min-height: 0;
-
-        @media (max-width: 768px) {
-            height: 250px; // Smaller fixed height for mobile
-            flex: none;
-            min-height: 200px; // Minimum height
-            max-height: 400px; // Maximum height to prevent overflow
-        }
     }
 }

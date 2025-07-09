@@ -22,18 +22,6 @@
                 border-radius: 0.5rem;
                 overflow: hidden;
             }
-
-            @media (max-width: 768px) {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto;
-
-                .left,
-                .right {
-                    min-height: 300px;
-                    max-height: 400px;
-                    overflow: auto;
-                }
-            }
         }
 
         .bottom {
@@ -72,18 +60,68 @@
                 overflow: hidden;
             }
         }
+    }
 
-        @media (max-width: 768px) {
+    .gameOver {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--text);
+        z-index: 1000;
+        text-align: center;
+
+        .overMessage {
+            font-size: 3rem;
+            font-weight: 600;
+            color: #f5f5f7;
+        }
+
+        .gameStats {
+            font-size: 1.5rem;
+            color: #a1a1a6;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .page {
+        height: 100%;
+
+        .main {
             grid-template-rows: auto auto auto;
             min-height: auto;
+            padding: 0.5rem;
 
             .top {
                 grid-template-columns: 1fr;
                 grid-template-rows: auto auto;
+                gap: 0.75rem;
 
                 .left,
                 .right {
                     min-height: 300px;
+                    max-height: 400px;
+                    overflow: auto;
                 }
             }
 
@@ -105,55 +143,21 @@
                         max-width: 120px;
                     }
                 }
+
+                .tabContent {
+                    overflow-y: auto;
+                }
             }
         }
-    }
 
-    .gameOver {
-        position: fixed;
-        inset: 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 1rem;
-        background: rgba(0, 0, 0, 0.8);
-        color: var(--text);
-        z-index: 1000;
-        text-align: center;
-
-        .overMessage {
-            font-size: 3rem;
-            font-weight: 600;
-            color: #f5f5f7;
-
-            @media (max-width: 768px) {
+        .gameOver {
+            .overMessage {
                 font-size: 2rem;
             }
-        }
 
-        .gameStats {
-            font-size: 1.5rem;
-            color: #a1a1a6;
-
-            @media (max-width: 768px) {
+            .gameStats {
                 font-size: 1.2rem;
             }
-        }
-
-        button {
-            padding: 0.5rem 1rem;
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.98);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1);
         }
     }
 }
