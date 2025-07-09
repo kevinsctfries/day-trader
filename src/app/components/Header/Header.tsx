@@ -18,11 +18,18 @@ export default function Header({
     <header className={styles.header}>
       <div className={styles.metric}>
         <span className={styles.label}>Cash Available:</span>
-        <span className={styles.value}>${cash.toLocaleString()}</span>
+        <span className={styles.value}>
+          {cash.toLocaleString("en-US", { style: "currency", currency: "USD" })}
+        </span>
       </div>
       <div className={styles.metric}>
         <span className={styles.label}>Net Worth:</span>
-        <span className={styles.value}>${netWorth.toLocaleString()}</span>
+        <span className={styles.value}>
+          {netWorth.toLocaleString("en-US", {
+            style: "currency",
+            currency: "USD",
+          })}
+        </span>
       </div>
       <button onClick={onNextDay}>Next Day</button>
       <span>Day: {currentDay}</span>
