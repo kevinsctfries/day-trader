@@ -18,6 +18,14 @@ function seededNormal(seed: number): number {
   return Math.sqrt(-2 * Math.log(u1 + 1e-10)) * Math.cos(2 * Math.PI * u2);
 }
 
+function stringToSeed(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = (hash * 31 + str.charCodeAt(i)) & 0x7fffffff;
+  }
+  return hash;
+}
+
 export function getStockPrice(
   symbol: string,
   day: number,
@@ -29,13 +37,13 @@ export function getStockPrice(
   if (day === 0) return basePrice;
 
   // include session ID to make each game session unique
-  const seed = GAME_SESSION_ID + symbol.charCodeAt(0) * 1000 + day;
+  const seed = GAME_SESSION_ID + stringToSeed(symbol) + day;
   const volatility = beta * 0.01;
 
   // adjust drift based on trend
   let drift = 0.0005;
-  if (trend === "upward") drift += 0.002;
-  else if (trend === "downward") drift -= 0.002;
+  if (trend === "upward") drift += 0.01;
+  else if (trend === "downward") drift -= 0.01;
 
   let dailyReturn = drift + volatility * seededNormal(seed);
 
