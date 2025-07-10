@@ -12,9 +12,10 @@ import { netWorth } from "../utils/portfolio";
 import { BaseStock, PortfolioState } from "@/app/types";
 import News from "../components/News/News";
 import Upgrades from "../components/Upgrades/Upgrades";
+import { baseStocks } from "../data/baseStocks";
 
 export default function Dashboard() {
-  const [baseStocks, setBaseStocks] = useState<BaseStock[]>([]);
+  const [baseStocksState, setBaseStocks] = useState<BaseStock[]>(baseStocks);
   const [selectedStock, setSelectedStock] = useState<BaseStock | null>(null);
   const [currentDay, setCurrentDay] = useState(0);
   const [portfolio, setPortfolio] = useState<PortfolioState>({
@@ -32,13 +33,6 @@ export default function Dashboard() {
 
   const [activeTab, setActiveTab] = useState(Tabs.ORDERS);
 
-  useEffect(() => {
-    fetch("/baseStocks.json")
-      .then(res => res.json())
-      .then(data => setBaseStocks(data))
-      .catch(err => console.error("Failed to load baseStocks:", err));
-  }, []);
-
   const nextDay = () => setCurrentDay(prev => prev + 1);
 
   useEffect(() => {
@@ -47,7 +41,7 @@ export default function Dashboard() {
     }
   }, [currentDay]);
 
-  const calculatedStocks = computeStocksPrices(baseStocks, currentDay);
+  const calculatedStocks = computeStocksPrices(baseStocksState, currentDay);
 
   const currentPrices: Record<string, number> = {};
   calculatedStocks.forEach(s => {
@@ -69,7 +63,7 @@ export default function Dashboard() {
           <div className={styles.left}>
             <StockTable
               day={currentDay}
-              baseStocks={baseStocks}
+              baseStocks={baseStocksState}
               onSelectStock={setSelectedStock}
             />
           </div>
@@ -93,7 +87,7 @@ export default function Dashboard() {
           <div className={styles.tabContent}>
             {activeTab === Tabs.ORDERS && (
               <Orders
-                baseStocks={baseStocks}
+                baseStocks={baseStocksState}
                 day={currentDay}
                 cash={portfolio.cash}
                 holdings={portfolio.holdings}
