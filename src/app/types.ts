@@ -3,6 +3,7 @@ export interface BaseStock {
   name: string;
   basePrice: number;
   beta: number;
+  trend?: "upward" | "downward" | "neutral";
 }
 
 export interface Stock extends BaseStock {

@@ -23,14 +23,20 @@ export function getStockPrice(
   day: number,
   basePrice: number,
   beta: number,
-  prevPrice?: number
+  prevPrice?: number,
+  trend: "upward" | "downward" | "neutral" = "neutral"
 ): number {
   if (day === 0) return basePrice;
 
   // include session ID to make each game session unique
   const seed = GAME_SESSION_ID + symbol.charCodeAt(0) * 1000 + day;
-  const drift = 0.0005;
   const volatility = beta * 0.01;
+
+  // adjust drift based on trend
+  let drift = 0.0005;
+  if (trend === "upward") drift += 0.002;
+  else if (trend === "downward") drift -= 0.002;
+
   let dailyReturn = drift + volatility * seededNormal(seed);
 
   // small chance for spike or crash (2%)
@@ -54,7 +60,8 @@ export function getStockPriceForDay(
   symbol: string,
   day: number,
   basePrice: number,
-  beta: number
+  beta: number,
+  trend: "upward" | "downward" | "neutral" = "neutral"
 ): number {
   if (!priceHistory.has(symbol)) {
     priceHistory.set(symbol, [basePrice]);
@@ -65,7 +72,14 @@ export function getStockPriceForDay(
   while (history.length <= day) {
     const currentDay = history.length;
     const prevPrice = history[currentDay - 1];
-    const price = getStockPrice(symbol, currentDay, basePrice, beta, prevPrice);
+    const price = getStockPrice(
+      symbol,
+      currentDay,
+      basePrice,
+      beta,
+      prevPrice,
+      trend
+    );
     history.push(price);
   }
 
@@ -76,9 +90,10 @@ export function getStockPriceHistory(
   symbol: string,
   currentDay: number,
   basePrice: number,
-  beta: number
+  beta: number,
+  trend: "upward" | "downward" | "neutral" = "neutral"
 ): number[] {
-  getStockPriceForDay(symbol, currentDay, basePrice, beta);
+  getStockPriceForDay(symbol, currentDay, basePrice, beta, trend);
 
   const history = priceHistory.get(symbol)!;
   return history.slice(0, currentDay + 1);
@@ -87,6 +102,12 @@ export function getStockPriceHistory(
 export function stockPrice(baseStocks: BaseStock[], day: number) {
   return baseStocks.map(base => ({
     ...base,
-    price: getStockPriceForDay(base.symbol, day, base.basePrice, base.beta),
+    price: getStockPriceForDay(
+      base.symbol,
+      day,
+      base.basePrice,
+      base.beta,
+      base.trend ?? "neutral"
+    ),
   }));
 }

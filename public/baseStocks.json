@@ -3,7 +3,8 @@
     "symbol": "AMAZ",
     "name": "Amazoom Inc.",
     "basePrice": 142.33,
-    "beta": 1.4
+    "beta": 1.4,
+    "trend": "upward"
   },
   {
     "symbol": "APPL",
