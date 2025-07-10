@@ -46,8 +46,6 @@ export function getStockPrice(
   return parseFloat(Math.max(todayPrice, 0.01).toFixed(2));
 }
 
-// Optional: Export function to get a new game session (for "New Game" button)
 export function startNewGameSession(): void {
-  // You could update the session ID here, but it's easier to just refresh the page
   window.location.reload();
 }
