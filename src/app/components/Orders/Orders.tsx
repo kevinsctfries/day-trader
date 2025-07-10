@@ -1,7 +1,7 @@
 "use client";
 
 import { BaseStock } from "@/app/types";
-import { stockPrice } from "@/app/utils/stocks";
+import { stockPrice } from "@/app/utils/priceGenerator";
 import PurchaseModal from "../PurchaseModal/PurchaseModal";
 import styles from "./Orders.module.scss";
 import { useState } from "react";

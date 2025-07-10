@@ -1,5 +1,9 @@
+import { BaseStock } from "../types";
+
 // generates a random session ID when the module loads
 const GAME_SESSION_ID = Math.floor(Math.random() * 1000000);
+
+const priceHistory = new Map<string, number[]>();
 
 // generates psuedo-random number
 function seededRandom(seed: number): number {
@@ -23,7 +27,7 @@ export function getStockPrice(
 ): number {
   if (day === 0) return basePrice;
 
-  // Include session ID to make each game session unique
+  // include session ID to make each game session unique
   const seed = GAME_SESSION_ID + symbol.charCodeAt(0) * 1000 + day;
   const drift = 0.0005;
   const volatility = beta * 0.01;
@@ -46,6 +50,43 @@ export function getStockPrice(
   return parseFloat(Math.max(todayPrice, 0.01).toFixed(2));
 }
 
-export function startNewGameSession(): void {
-  window.location.reload();
+export function getStockPriceForDay(
+  symbol: string,
+  day: number,
+  basePrice: number,
+  beta: number
+): number {
+  if (!priceHistory.has(symbol)) {
+    priceHistory.set(symbol, [basePrice]);
+  }
+
+  const history = priceHistory.get(symbol)!;
+
+  while (history.length <= day) {
+    const currentDay = history.length;
+    const prevPrice = history[currentDay - 1];
+    const price = getStockPrice(symbol, currentDay, basePrice, beta, prevPrice);
+    history.push(price);
+  }
+
+  return history[day];
+}
+
+export function getStockPriceHistory(
+  symbol: string,
+  currentDay: number,
+  basePrice: number,
+  beta: number
+): number[] {
+  getStockPriceForDay(symbol, currentDay, basePrice, beta);
+
+  const history = priceHistory.get(symbol)!;
+  return history.slice(0, currentDay + 1);
+}
+
+export function stockPrice(baseStocks: BaseStock[], day: number) {
+  return baseStocks.map(base => ({
+    ...base,
+    price: getStockPriceForDay(base.symbol, day, base.basePrice, base.beta),
+  }));
 }

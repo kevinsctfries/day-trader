@@ -7,7 +7,7 @@ import StockChart from "../components/StockChart/StockChart";
 import Portfolio from "../components/Portfolio/Portfolio";
 import Header from "../components/Header/Header";
 import Orders from "../components/Orders/Orders";
-import { stockPrice } from "../utils/stocks";
+import { stockPrice } from "../utils/priceGenerator";
 import { netWorth } from "../utils/portfolio";
 import { BaseStock, PortfolioState } from "@/app/types";
 import News from "../components/News/News";

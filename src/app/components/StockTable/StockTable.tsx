@@ -2,7 +2,7 @@
 
 import styles from "./StockTable.module.scss";
 import { BaseStock, Stock } from "@/app/types";
-import { stockPrice } from "@/app/utils/stocks";
+import { stockPrice } from "@/app/utils/priceGenerator";
 import { getStockPrice } from "@/app/utils/priceGenerator";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
