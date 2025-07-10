@@ -1,21 +1,28 @@
 import { BaseStock } from "../types";
 
-// generate random numbers in a range
-function getRandomInRange(min: number, max: number): number {
-  return Math.random() * (max - min) + min;
+// generate a deterministic seed based on day
+const DAILY_SEED = Math.floor(Date.now() / (1000 * 60 * 60 * 24));
+function getSeededRandom(seed: number): number {
+  const x = Math.sin(seed) * 10000;
+  return x - Math.floor(x);
 }
 
-// pick a random trend
-function getRandomTrend(): "upward" | "downward" | "neutral" {
+// generate random numbers in a range with a seed
+function getRandomInRange(min: number, max: number, seed: number): number {
+  return getSeededRandom(seed) * (max - min) + min;
+}
+
+// pick a random trend with a seed
+function getRandomTrend(seed: number): "upward" | "downward" | "neutral" {
   const trends: ("upward" | "downward" | "neutral")[] = [
     "upward",
     "downward",
     "neutral",
   ];
-  return trends[Math.floor(Math.random() * trends.length)];
+  return trends[Math.floor(getSeededRandom(seed) * trends.length)];
 }
 
-// baseStock data with fixed symbols and names
+// base stock data with fixed symbols and names
 const stockTemplates: Pick<BaseStock, "symbol" | "name">[] = [
   { symbol: "AMAZ", name: "Amazoom Inc." },
   { symbol: "APPL", name: "Pineapple Technologies" },
@@ -29,10 +36,28 @@ const stockTemplates: Pick<BaseStock, "symbol" | "name">[] = [
   { symbol: "BRKB", name: "Brickshire Hathaway" },
 ];
 
-// generate randomized baseStocks
-export const baseStocks: BaseStock[] = stockTemplates.map(stock => ({
-  ...stock,
-  basePrice: Number(getRandomInRange(50, 500).toFixed(2)),
-  beta: Number(getRandomInRange(0.5, 2.0).toFixed(2)),
-  trend: getRandomTrend(),
-}));
+// generate randomized baseStocks with a seed
+function generateBaseStocksWithSeed(seed: number): BaseStock[] {
+  return stockTemplates.map((stock, index) => ({
+    ...stock,
+    basePrice: Number(getRandomInRange(50, 500, seed + index).toFixed(2)),
+    beta: Number(getRandomInRange(0.5, 2.0, seed + index + 1000).toFixed(2)),
+    trend: getRandomTrend(seed + index + 2000),
+  }));
+}
+
+// generate randomized baseStocks for resets (using Math.random)
+export function generateBaseStocks(): BaseStock[] {
+  return stockTemplates.map(stock => ({
+    ...stock,
+    basePrice: Number((Math.random() * (500 - 50) + 50).toFixed(2)),
+    beta: Number((Math.random() * (2.0 - 0.5) + 0.5).toFixed(2)),
+    trend: ["upward", "downward", "neutral"][Math.floor(Math.random() * 3)] as
+      | "upward"
+      | "downward"
+      | "neutral",
+  }));
+}
+
+// init baseStocks with deterministic seed
+export const baseStocks: BaseStock[] = generateBaseStocksWithSeed(DAILY_SEED);
