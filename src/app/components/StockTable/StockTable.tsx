@@ -2,8 +2,7 @@
 
 import styles from "./StockTable.module.scss";
 import { BaseStock, Stock } from "@/app/types";
-import { stockPrice } from "@/app/utils/priceGenerator";
-import { getStockPrice } from "@/app/utils/priceGenerator";
+import { stockPrice, getStockPriceForDay } from "@/app/utils/priceGenerator";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface Props {
@@ -30,11 +29,12 @@ export default function StockTable({ day, baseStocks, onSelectStock }: Props) {
             const todayPrice = stock.price;
             const yesterdayPrice =
               day > 0
-                ? getStockPrice(
+                ? getStockPriceForDay(
                     stock.symbol,
                     day - 1,
                     stock.basePrice,
-                    stock.beta
+                    stock.beta,
+                    stock.trend ?? "neutral"
                   )
                 : todayPrice;
             const wentUp = todayPrice > yesterdayPrice;
