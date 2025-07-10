@@ -1,3 +1,6 @@
+// generates a random session ID when the module loads
+const GAME_SESSION_ID = Math.floor(Math.random() * 1000000);
+
 // generates psuedo-random number
 function seededRandom(seed: number): number {
   const x = Math.sin(seed) * 10000;
@@ -20,7 +23,8 @@ export function getStockPrice(
 ): number {
   if (day === 0) return basePrice;
 
-  const seed = symbol.charCodeAt(0) * 1000 + day;
+  // Include session ID to make each game session unique
+  const seed = GAME_SESSION_ID + symbol.charCodeAt(0) * 1000 + day;
   const drift = 0.0005;
   const volatility = beta * 0.01;
   let dailyReturn = drift + volatility * seededNormal(seed);
@@ -40,4 +44,10 @@ export function getStockPrice(
   const yesterdayPrice = prevPrice ?? basePrice;
   const todayPrice = yesterdayPrice * Math.exp(dailyReturn);
   return parseFloat(Math.max(todayPrice, 0.01).toFixed(2));
+}
+
+// Optional: Export function to get a new game session (for "New Game" button)
+export function startNewGameSession(): void {
+  // You could update the session ID here, but it's easier to just refresh the page
+  window.location.reload();
 }
