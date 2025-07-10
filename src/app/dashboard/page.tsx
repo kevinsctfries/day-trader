@@ -7,7 +7,7 @@ import StockChart from "../components/StockChart/StockChart";
 import Portfolio from "../components/Portfolio/Portfolio";
 import Header from "../components/Header/Header";
 import Orders from "../components/Orders/Orders";
-import { stockPrice } from "../utils/priceGenerator";
+import { computeStocksPrices } from "../utils/priceGenerator";
 import { netWorth } from "../utils/portfolio";
 import { BaseStock, PortfolioState } from "@/app/types";
 import News from "../components/News/News";
@@ -47,7 +47,7 @@ export default function Dashboard() {
     }
   }, [currentDay]);
 
-  const calculatedStocks = stockPrice(baseStocks, currentDay);
+  const calculatedStocks = computeStocksPrices(baseStocks, currentDay);
 
   const currentPrices: Record<string, number> = {};
   calculatedStocks.forEach(s => {

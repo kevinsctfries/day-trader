@@ -1,12 +1,11 @@
 "use client";
 
 import { BaseStock } from "@/app/types";
-import { stockPrice } from "@/app/utils/priceGenerator";
+import { computeStocksPrices } from "@/app/utils/priceGenerator";
 import PurchaseModal from "../PurchaseModal/PurchaseModal";
 import styles from "./Orders.module.scss";
 import { useState } from "react";
 import SellModal from "../SellModal/SellModal";
-import { getStockPrice } from "@/app/utils/priceGenerator";
 import { buyShares, sellShares } from "@/app/utils/portfolio";
 import { PortfolioState, Holding } from "@/app/types";
 
@@ -29,7 +28,7 @@ export default function Orders({
 }: Props) {
   const [showPurchase, setShowPurchase] = useState(false);
   const [showSell, setShowSell] = useState(false);
-  const calculatedStocks = stockPrice(baseStocks, day);
+  const calculatedStocks = computeStocksPrices(baseStocks, day);
   const [stock, setStock] = useState<BaseStock | null>(null);
   const [selectedPrice, setSelectedPrice] = useState<number>(0);
 
@@ -50,12 +49,7 @@ export default function Orders({
             {calculatedStocks.map(stock => {
               const owned =
                 holdings.find(h => h.symbol === stock.symbol)?.shares ?? 0;
-              const currentPrice = getStockPrice(
-                stock.symbol,
-                day,
-                stock.basePrice,
-                stock.beta
-              );
+              const currentPrice = stock.price;
 
               return (
                 <tr key={stock.symbol}>

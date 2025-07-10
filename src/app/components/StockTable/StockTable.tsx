@@ -2,7 +2,10 @@
 
 import styles from "./StockTable.module.scss";
 import { BaseStock, Stock } from "@/app/types";
-import { stockPrice, getStockPriceForDay } from "@/app/utils/priceGenerator";
+import {
+  computeStocksPrices,
+  computeStockPrice,
+} from "@/app/utils/priceGenerator";
 import { TrendingUp, TrendingDown } from "lucide-react";
 
 interface Props {
@@ -12,7 +15,7 @@ interface Props {
 }
 
 export default function StockTable({ day, baseStocks, onSelectStock }: Props) {
-  const calculatedStocks = stockPrice(baseStocks, day);
+  const calculatedStocks = computeStocksPrices(baseStocks, day);
 
   return (
     <div className={styles.main}>
@@ -29,7 +32,7 @@ export default function StockTable({ day, baseStocks, onSelectStock }: Props) {
             const todayPrice = stock.price;
             const yesterdayPrice =
               day > 0
-                ? getStockPriceForDay(
+                ? computeStockPrice(
                     stock.symbol,
                     day - 1,
                     stock.basePrice,

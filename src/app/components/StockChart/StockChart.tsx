@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import styles from "./StockChart.module.scss";
-import { getStockPriceHistory } from "@/app/utils/priceGenerator";
+import { getPriceHistory } from "@/app/utils/priceGenerator";
 import { BaseStock } from "@/app/types";
 import { useState } from "react";
 
@@ -34,7 +34,7 @@ export default function StockChart({ stock, currentDay }: Props) {
     days === "YTD" ? currentDay + 1 : Math.min(currentDay + 1, parseInt(days));
   const startDay = Math.max(0, currentDay - visibleDays + 1);
 
-  const priceHistory = getStockPriceHistory(
+  const priceHistory = getPriceHistory(
     stock.symbol,
     currentDay,
     stock.basePrice,
