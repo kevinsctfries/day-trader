@@ -101,7 +101,9 @@ export default function Dashboard() {
               />
             )}
             {activeTab === Tabs.PORTFOLIO && <Portfolio />}
-            {activeTab === Tabs.NEWS && <News />}
+            {activeTab === Tabs.NEWS && (
+              <News baseStocks={baseStocksState} currentDay={currentDay} />
+            )}
             {activeTab === Tabs.UPGRADES && <Upgrades />}
           </div>
         </div>
