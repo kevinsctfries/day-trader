@@ -59,5 +59,24 @@ export function generateBaseStocks(): BaseStock[] {
   }));
 }
 
+// Update trends for stocks with a probability (e.g., 10% chance per stock)
+export function updateStockTrends(
+  stocks: BaseStock[],
+  day: number,
+  changeProbability: number = 0.1
+): BaseStock[] {
+  return stocks.map((stock, index) => {
+    const seed = DAILY_SEED + day + index + 3000;
+    const shouldChange = getSeededRandom(seed) < changeProbability;
+    if (shouldChange) {
+      return {
+        ...stock,
+        trend: getRandomTrend(seed + 1),
+      };
+    }
+    return stock;
+  });
+}
+
 // init baseStocks with deterministic seed
 export const baseStocks: BaseStock[] = generateBaseStocksWithSeed(DAILY_SEED);

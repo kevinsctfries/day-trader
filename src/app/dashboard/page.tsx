@@ -12,7 +12,7 @@ import { netWorth } from "../utils/portfolio";
 import { BaseStock, PortfolioState } from "@/app/types";
 import News from "../components/News/News";
 import Upgrades from "../components/Upgrades/Upgrades";
-import { baseStocks } from "../data/baseStocks";
+import { baseStocks, updateStockTrends } from "../data/baseStocks";
 
 export default function Dashboard() {
   const [baseStocksState, setBaseStocks] = useState<BaseStock[]>(baseStocks);
@@ -33,7 +33,13 @@ export default function Dashboard() {
 
   const [activeTab, setActiveTab] = useState(Tabs.ORDERS);
 
-  const nextDay = () => setCurrentDay(prev => prev + 1);
+  const nextDay = () => {
+    setCurrentDay(prev => {
+      const newDay = prev + 1;
+      setBaseStocks(updateStockTrends(baseStocksState, newDay));
+      return newDay;
+    });
+  };
 
   useEffect(() => {
     if (currentDay === 100) {
